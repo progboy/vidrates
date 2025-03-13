@@ -1,1 +1,94 @@
 /* css code goes here */
+
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f2f2f2;
+  color: #333;
+  text-align: center;
+}
+
+/* Header Styling */
+h1 {
+  font-size: 3rem;
+  margin: 1rem 0;
+  color: #444;
+}
+
+/* Video Container Styling */
+#video {
+  margin: 20px auto;
+  width: 80%;
+  max-width: 560px;
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Rating Title Styling */
+h2 {
+  font-size: 2rem;
+  margin-top: 30px;
+  color: #444;
+}
+
+/* Rating Stars Container */
+#rateinput {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+/* Star Images Styling */
+#rateinput img {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+#rateinput img:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* Button Styling */
+button {
+  background-color: #5cb85c;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 30px;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  #video {
+    width: 100%;
+    padding: 0;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+}
