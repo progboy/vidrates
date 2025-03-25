@@ -1,15 +1,13 @@
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const url = require('url');
 const { MongoClient, ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
-const app = require('express')();
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
 
-let urllist = ['c2M-rlkkT5o','btdLnB9PXuY','-dUiRtJ8ot0','K1a2Bk8NrYQ','lCBnO60kBGc',
-    'oqSYljRYDEM','-bt_y4Loofg','SMQc4umq3gg','vWq-pbBRPUg','v-rxiEEM7BY','K3m-VeDSoUo',
-    'I7muKz0hVKQ','eN9XX-dd0LQ','4iNqAhCtbmQ','O3XUQ1xKZb0','d7jbfeL-em8','14Rd_h9V4tQ'
-];
+app = express();
+
+app.use(express.json());
+app.use(express.static("../frontend/"));
 
 
 const mongoUrl = 'mongodb://localhost:27017'; // Change this to your MongoDB connection string
@@ -20,7 +18,7 @@ mongoose.connect(mongoUrl+"/"+dbName)
   console.log("db connected");
 }).catch((err) => {
   console.error(err)
-});
+}); 
 
 const userSchema = new mongoose.Schema({
   url: {
@@ -38,6 +36,8 @@ const userSchema = new mongoose.Schema({
 
 const Videos = mongoose.model("videos",userSchema);
 
+
+//used it once for inserting data in database
 async function insertData() {
     const client = new MongoClient(mongoUrl,{useNewUrlParser: true,useUnifiedTopology: true});
   
@@ -60,43 +60,50 @@ async function insertData() {
 
 async function getRandomVideo() {
   //todo - implement this using mongoose
+  try{
+    const count = await Videos.countDocuments(); // Get total document count
+    const random = Math.floor(Math.random() * count); // Generate random index
+    const randomvideo = await Videos.findOne().skip(random); // Skip to that index
+
+    return randomvideo
+  }catch(error){
+    console.error("Error fetching random document:", error);
+  }
+  return null
 }
 
-const server = http.createServer((req,res)=>{
-    const parsedUrl = url.parse(req.url, true);
-    const pathname = parsedUrl.pathname;
+async function updateRating(data){
+    try{
+        await Videos.updateOne({url:data.url},{rating:data.rating,ratings:data.ratings})
+        console.log("updated the data for video url - " + data.url);
+    }catch(error){
+        console.error("error updating data -> " + error);
+    }
+}
 
-    let filePath = path.join(__dirname, '../frontend', pathname === '/' ? 'index.html' : pathname);
-        fs.readFile(filePath, (err, content) => {
-        
-          if(err){
-            res.writeHead(404, { 'Content-Type': 'text/html' });
-            res.end('404 Not Found');
-            return;
-          }
-          //setting mime
-          let contentType = 'text/html';
-          if (pathname.endsWith('.css')) contentType = 'text/css';
-          if (pathname.endsWith('.js')) contentType = 'application/javascript';
-    
-          //this runs if content is valid
-          res.writeHead(200, { 'Content-Type': contentType });
-          res.end(content);
-        });
+app.get("/geturl", async (req,res) => {
+try{
+
+  const uri = await getRandomVideo();
+  console.log(uri);
+  res.status(200).json(uri);
+}catch(e){
+    console.error("error here -> " + e);
+}
 });
 
-app.get("/", (req,res) =>{
-  let uri = getRandomVideo();
-  //console.log(uri.url);
-  res.status(200).send("working fine")
-});
+app.patch("/submitrating", async (req,res) => {
+    try{
+        console.log(req.body);
+        await updateRating(req.body);
+        res.send("update successful");
+    }catch(err){
+        res.status(500).send("error while updating data ->" + e);
+    }
+})
 
-app.listen(
-  8080, () =>{
+app.listen(8080, () =>{
     console.log("listening at port 8080");
   }
 );
 
-server.listen(5000, () => {
-  console.log('Server listening on port 5000');
-});

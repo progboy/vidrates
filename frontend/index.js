@@ -6,8 +6,6 @@ let star5 = document.getElementById("star5");
 
 let rating = 0;
 
-let submit = document.getElementById("submit");
-
 function setStar(star){
     star.src = "./images/star_shaded.png";
 }
@@ -59,9 +57,3 @@ star5.onclick = function(){
     setStar(star4);
     setStar(star5);
 };
-
-submit.onclick = () => {
-    console.log(rating);
-    //from here data is sent to backend
-    //to do - implement rating should be associated with video links
-}
