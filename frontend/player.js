@@ -31,5 +31,5 @@ submit.onclick = () => {
     .then(data => console.log("Updated data:", data))
     .catch(error => console.error("Error:", error));
 
-    location.reload();
+    //location.reload();
 }
