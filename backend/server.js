@@ -58,7 +58,6 @@ async function insertData() {
 }
 
 async function getRandomVideo() {
-  //todo - implement this using mongoose
   try{
     const count = await Videos.countDocuments(); // Get total document count
     const random = Math.floor(Math.random() * count); // Generate random index
@@ -70,10 +69,26 @@ async function getRandomVideo() {
   }
   return null
 }
+async function findVideo(vidurl) {
+    try{
+      const video = await Videos.findOne({url:vidurl}); 
+      console.log(video)
+      if(video==null){
+        return {};
+      }
+      return video
+    }catch(error){
+      console.error("Error fetching searched video :", error);
+    }
+    return null
+}
+
+findVideo('2k38o_uzi0U')
+  
 
 async function updateRating(data){
     try{
-        await Videos.updateOne({url:data.url},{rating:data.rating,ratings:data.ratings})
+        await Videos.updateOne({url:data.url},{rating:data.rating,ratings:data.ratings},{upsert:true})
         console.log("updated the data for video url - " + data.url);
     }catch(error){
         console.error("error updating data -> " + error);
@@ -107,6 +122,16 @@ app.get("/api/getkey", async (req,res)=>{
         res.sendFile(path.join(__dirname, 'client_secret.json'));
     }catch(err){
         res.status(500).send("error while getting api key ->" + err)
+    }
+})
+
+app.get("/api/findvid/:url", async (req, res) => {
+    try{
+        const data = await findVideo(req.params.url.slice(1));
+        res.json(data);
+        
+    }catch(err){
+        res.status(500).send("error while getting searched video url -> " + err);
     }
 })
 

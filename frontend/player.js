@@ -8,6 +8,13 @@ let urllist = ['c2M-rlkkT5o','btdLnB9PXuY','-dUiRtJ8ot0','K1a2Bk8NrYQ','lCBnO60k
 let submit = document.getElementById("submit");
 let vidData;
 
+function setVidData(vidrating,reviews,vidurl){
+    vidData.rating= vidrating;
+    vidData.url=vidurl;
+    vidData.ratings = reviews;
+    return vidData;
+}
+
 fetch('/api/geturl')
     .then(response => response.json())
     .then(data => {
@@ -16,16 +23,21 @@ fetch('/api/geturl')
         let ratingDisp = document.getElementById('avg-rating');
         let reviewDisp = document.getElementById('reviews-count');
         playerelem.src = "https://www.youtube.com/embed/" + data.url;
-        ratingDisp.innerText = data.rating;
+        ratingDisp.innerText = data.rating.toFixed(2);
         reviewDisp.innerText = data.ratings;
     })
   .catch(error => console.error("Error fetching data:", error));
 // console.log(urllist[ind]);
 
 submit.onclick = () => {
-    console.log(rating);
+    //console.log(rating);
+    vidData.url = document.getElementById('vidplayer').src.slice(30);
+    vidData.rating = parseFloat(document.getElementById('avg-rating').innerText);
+    vidData.ratings = parseInt(document.getElementById('reviews-count').innerText);
+
     vidData.rating = (vidData.rating*vidData.ratings+rating)/(vidData.ratings+1);
     vidData.ratings++;
+    //console.log("vidData after clicking submit" , vidData);
     //patch method used here
     fetch("/api/submitrating", {
         method: "PATCH",
@@ -35,10 +47,10 @@ submit.onclick = () => {
     .then(data => console.log("Updated data:", data))
     .catch(error => console.error("Error:", error));
 
-    setTimeout(() => {
-        location.reload();
-    }, 1500);
-    
+    // setTimeout(() => {
+    //     location.reload();
+    // }, 1500);
+    //enable after debugging
 
 }
 
@@ -51,7 +63,7 @@ reloadButton.onclick = () => {
 let searchButton = document.getElementById("search");
 searchButton.onclick = () => {
     let query = document.getElementById("searchbar").value;
-    console.log(query);
+    //console.log(query);
     fetch('/api/getkey').then(response => response.json())
     .then(data => {
         let furl = `https://www.googleapis.com/youtube/v3/search?key=${data.key}&part=id&type=video&q=${query}&maxResults=5&type=video`;
@@ -64,14 +76,31 @@ searchButton.onclick = () => {
             if(data.items[i].id.kind=="youtube#video"){
                 playerelem.src = "https://www.youtube.com/embed/" + data.items[i].id.videoId;
                 //to do - show rating if it exists, otherwise show it as unrated
+                fetch(`/api/findvid/:${data.items[i].id.videoId}`).then(response => response.json()).then(data => {
+                    let ratingDisp = document.getElementById('avg-rating');
+                    let reviewDisp = document.getElementById('reviews-count');
+                    //console.log(data, {});
+                    if(Object.keys(data).length>0){
+                        vidData = data;
+                        ratingDisp.innerText = data.rating.toFixed(2);
+                        reviewDisp.innerText = data.ratings;
+                    }else{
+                        ratingDisp.innerText = 0;
+                        reviewDisp.innerText = 0;
+                    }
+                })
+                .catch((err) => {
+                    //console.error(err)
+                });
                 break;
             }
         }
-        console.log(data);
+        //console.log(data);
     })
   .catch(error => console.error("Error fetching data:", error));
     })
     .catch(error => console.error("error fetching api key =>", error))
 }
 
-//to do - implement feature so that avg rating and no of reviews can be seen by user, also insert searched video if user rates it
+//to do - insert new searched video if user rates it
+//
