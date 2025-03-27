@@ -81,7 +81,7 @@ async function updateRating(data){
     }
 }
 
-app.get("/geturl", async (req,res) => {
+app.get("/api/geturl", async (req,res) => {
 try{
 
   const uri = await getRandomVideo();
@@ -92,7 +92,7 @@ try{
 }
 });
 
-app.patch("/submitrating", async (req,res) => {
+app.patch("/api/submitrating", async (req,res) => {
     try{
         console.log(req.body);
         await updateRating(req.body);
