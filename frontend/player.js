@@ -8,7 +8,7 @@ let urllist = ['c2M-rlkkT5o','btdLnB9PXuY','-dUiRtJ8ot0','K1a2Bk8NrYQ','lCBnO60k
 let submit = document.getElementById("submit");
 let vidData;
 
-fetch('http://localhost:8080/api/geturl')
+fetch('/api/geturl')
     .then(response => response.json())
     .then(data => {
         vidData = data;
@@ -23,7 +23,7 @@ submit.onclick = () => {
     vidData.rating = (vidData.rating*vidData.ratings+rating)/(vidData.ratings+1);
     vidData.ratings++;
     //patch method used here
-    fetch("http://localhost:8080/api/submitrating", {
+    fetch("/api/submitrating", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(vidData)
