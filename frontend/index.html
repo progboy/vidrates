@@ -8,16 +8,11 @@
 </head>
 <body>
   <h1>VidRates</h1>
-  
-  <!-- Search Bar Section -->
   <div id="search-container">
-    <input type="text" id="search-bar" placeholder="Search for a video...">
-    <button id="search-btn">Search</button>
+    <input type="text" id="searchbar" placeholder="Search for a video...">
+    <button id="search">Search</button>
   </div>
-  
-  <!-- Main Content -->
   <div id="main-content">
-    <!-- Video & Info Container -->
     <div id="video-container">
       <div id="video">
         <iframe id="vidplayer" width="560" height="315" 
@@ -26,7 +21,6 @@
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
         </iframe>
       </div>
-      <!-- Video Info UI -->
       <div id="video-info">
         <p>Average Rating: <span id="avg-rating">0</span></p>
         <p>Reviews: <span id="reviews-count">0</span></p>
@@ -34,7 +28,6 @@
     </div>
     
     <h2>Give Rating</h2>
-    <!-- Rating Stars -->
     <div id="rateinput">
       <img id="star1" src="./images/star_unshaded.png" width="60" height="60"> 
       <img id="star2" src="./images/star_unshaded.png" width="60" height="60">
@@ -43,7 +36,6 @@
       <img id="star5" src="./images/star_unshaded.png" width="60" height="60">
     </div>
     
-    <!-- Action Buttons -->
     <div id="action-buttons">
       <button id="submit">Submit</button>
       <button id="reload">Reload</button>
