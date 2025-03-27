@@ -8,7 +8,7 @@ let urllist = ['c2M-rlkkT5o','btdLnB9PXuY','-dUiRtJ8ot0','K1a2Bk8NrYQ','lCBnO60k
 let submit = document.getElementById("submit");
 let vidData;
 
-fetch('http://localhost:8080/geturl')
+fetch('http://localhost:8080/api/geturl')
     .then(response => response.json())
     .then(data => {
         vidData = data;
@@ -23,7 +23,7 @@ submit.onclick = () => {
     vidData.rating = (vidData.rating*vidData.ratings+rating)/(vidData.ratings+1);
     vidData.ratings++;
     //patch method used here
-    fetch("http://localhost:8080/submitrating", {
+    fetch("http://localhost:8080/api/submitrating", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(vidData)
@@ -31,5 +31,39 @@ submit.onclick = () => {
     .then(data => console.log("Updated data:", data))
     .catch(error => console.error("Error:", error));
 
-    //location.reload();
+    setTimeout(() => {
+        location.reload();
+    }, 1500);
+    
+
 }
+
+let reloadButton = document.getElementById("reload");
+
+reloadButton.onclick = () => {
+    location.reload();
+}
+
+let searchButton = document.getElementById("search");
+searchButton.onclick = () => {
+    let query = document.getElementById("searchbar").value;
+    console.log(query);
+    let furl = `https://www.googleapis.com/youtube/v3/search?key=AIzaSyBKlKixXFiFUO3RkzUuK-abJZNU6jkhBMQ&part=id&type=video&q=${query}&maxResults=5&type=video`;
+    fetch(furl)
+    .then(response => response.json())
+    .then(data => {
+        //console.log(data.items[0].id.videoId);
+        let playerelem = document.getElementById('vidplayer');
+        for(let i =0;i<5;i++){
+            if(data.items[i].id.kind=="youtube#video"){
+                playerelem.src = "https://www.youtube.com/embed/" + data.items[i].id.videoId;
+                //to do - show rating if it exists, otherwise show it as unrated
+                break;
+            }
+        }
+        console.log(data);
+    })
+  .catch(error => console.error("Error fetching data:", error));
+}
+
+//to do - implement feature so that avg rating and no of reviews can be seen by user, also insert searched video if user rates it

@@ -3,14 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-placeholder.css">
     <title>VidRates</title>
 </head>
 <body>
+    <span id="searchbox">
     <h1>VidRates</h1>
-    <div id = "video"><iframe id="vidplayer" width="560" height="315" 
-    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-    gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <input id = "searchbar" type="text" placeholder="Search..." id="searchInput">
+            <button id="searchButton">
+                <img src="./images/search.png" width = "30" height = "30" alt="Search">
+            </button>
+    </span>
+    <div id="content">
+        <div id="video-container">
+            <iframe id="vidplayer" width="560" height="315" 
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
+                gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+        </div>
+        <div id="rating-info">
+            <p>Average Rating</p>
+            <p id="avg-rating">4.5</p>
+            <p id="review-count">100 Reviews</p>
+        </div>
     </div>
     <h2>Give Rating</h2>
     <div id="rateinput">
