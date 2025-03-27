@@ -48,11 +48,9 @@ let searchButton = document.getElementById("search");
 searchButton.onclick = () => {
     let query = document.getElementById("searchbar").value;
     console.log(query);
-    let apikey;
-    fetch('client_secret.json').then(response => response.json())
-    .then(data => apikey = data.key)
-    .catch(error => console.error("error fetching api key =>", error))
-    let furl = `https://www.googleapis.com/youtube/v3/search?key=${apikey}&part=id&type=video&q=${query}&maxResults=5&type=video`;
+    fetch('/api/getkey').then(response => response.json())
+    .then(data => {
+        let furl = `https://www.googleapis.com/youtube/v3/search?key=${data.key}&part=id&type=video&q=${query}&maxResults=5&type=video`;
     fetch(furl)
     .then(response => response.json())
     .then(data => {
@@ -68,6 +66,8 @@ searchButton.onclick = () => {
         console.log(data);
     })
   .catch(error => console.error("Error fetching data:", error));
+    })
+    .catch(error => console.error("error fetching api key =>", error))
 }
 
 //to do - implement feature so that avg rating and no of reviews can be seen by user, also insert searched video if user rates it

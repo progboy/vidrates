@@ -2,7 +2,6 @@ const { MongoClient, ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
-const cors = require('cors');
 
 app = express();
 
@@ -98,7 +97,16 @@ app.patch("/api/submitrating", async (req,res) => {
         await updateRating(req.body);
         res.send("update successful");
     }catch(err){
-        res.status(500).send("error while updating data ->" + e);
+        res.status(500).send("error while updating data ->" + err);
+    }
+})
+
+app.get("/api/getkey", async (req,res)=>{
+    try{
+        res.header("Content-Type",'application/json');
+        res.sendFile(path.join(__dirname, 'client_secret.json'));
+    }catch(err){
+        res.status(500).send("error while getting api key ->" + err)
     }
 })
 
