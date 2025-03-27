@@ -72,7 +72,7 @@ async function getRandomVideo() {
 async function findVideo(vidurl) {
     try{
       const video = await Videos.findOne({url:vidurl}); 
-      console.log(video)
+      //console.log(video)
       if(video==null){
         return {};
       }
@@ -89,7 +89,7 @@ findVideo('2k38o_uzi0U')
 async function updateRating(data){
     try{
         await Videos.updateOne({url:data.url},{rating:data.rating,ratings:data.ratings},{upsert:true})
-        console.log("updated the data for video url - " + data.url);
+        //console.log("updated the data for video url - " + data.url);
     }catch(error){
         console.error("error updating data -> " + error);
     }
@@ -99,7 +99,7 @@ app.get("/api/geturl", async (req,res) => {
 try{
 
   const uri = await getRandomVideo();
-  console.log(uri);
+  //console.log(uri);
   res.status(200).json(uri);
 }catch(e){
     console.error("error here -> " + e);
@@ -108,7 +108,7 @@ try{
 
 app.patch("/api/submitrating", async (req,res) => {
     try{
-        console.log(req.body);
+        //console.log(req.body);
         await updateRating(req.body);
         res.send("update successful");
     }catch(err){
