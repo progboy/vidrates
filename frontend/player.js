@@ -13,7 +13,11 @@ fetch('/api/geturl')
     .then(data => {
         vidData = data;
         let playerelem = document.getElementById('vidplayer');
+        let ratingDisp = document.getElementById('avg-rating');
+        let reviewDisp = document.getElementById('reviews-count');
         playerelem.src = "https://www.youtube.com/embed/" + data.url;
+        ratingDisp.innerText = data.rating;
+        reviewDisp.innerText = data.ratings;
     })
   .catch(error => console.error("Error fetching data:", error));
 // console.log(urllist[ind]);
