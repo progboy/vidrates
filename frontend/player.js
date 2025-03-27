@@ -47,10 +47,9 @@ submit.onclick = () => {
     .then(data => console.log("Updated data:", data))
     .catch(error => console.error("Error:", error));
 
-    // setTimeout(() => {
-    //     location.reload();
-    // }, 1500);
-    //enable after debugging
+    setTimeout(() => {
+        location.reload();
+    }, 1500);
 
 }
 
