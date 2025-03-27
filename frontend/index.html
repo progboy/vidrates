@@ -1,28 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>VidRates</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>VidRates</title>
 </head>
 <body>
-    <h1>VidRates</h1>
-    <div id = "video"><iframe id="vidplayer" width="560" height="315" 
-    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; 
-    gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <h1>VidRates</h1>
+  
+  <!-- Search Bar Section -->
+  <div id="search-container">
+    <input type="text" id="search-bar" placeholder="Search for a video...">
+    <button id="search-btn">Search</button>
+  </div>
+  
+  <!-- Main Content -->
+  <div id="main-content">
+    <!-- Video & Info Container -->
+    <div id="video-container">
+      <div id="video">
+        <iframe id="vidplayer" width="560" height="315" 
+          title="YouTube video player" frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+        </iframe>
+      </div>
+      <!-- Video Info UI -->
+      <div id="video-info">
+        <p>Average Rating: <span id="avg-rating">0</span></p>
+        <p>Reviews: <span id="reviews-count">0</span></p>
+      </div>
     </div>
+    
     <h2>Give Rating</h2>
+    <!-- Rating Stars -->
     <div id="rateinput">
-        <img id="star1" src="./images/star_unshaded.png" width = "60" height = "60"> 
-        <img id="star2" src="./images/star_unshaded.png" width = "60" height = "60">
-        <img id="star3" src="./images/star_unshaded.png" width = "60" height = "60"> 
-        <img id="star4" src="./images/star_unshaded.png" width = "60" height = "60"> 
-        <img id="star5" src="./images/star_unshaded.png" width = "60" height = "60">
+      <img id="star1" src="./images/star_unshaded.png" width="60" height="60"> 
+      <img id="star2" src="./images/star_unshaded.png" width="60" height="60">
+      <img id="star3" src="./images/star_unshaded.png" width="60" height="60"> 
+      <img id="star4" src="./images/star_unshaded.png" width="60" height="60"> 
+      <img id="star5" src="./images/star_unshaded.png" width="60" height="60">
     </div>
-    <button id = "submit">Submit</button>
-    <button id = "reload">Reload</button>
-    <script src = "index.js"></script>
-    <script src = "player.js"></script>
+    
+    <!-- Action Buttons -->
+    <div id="action-buttons">
+      <button id="submit">Submit</button>
+      <button id="reload">Reload</button>
+    </div>
+  </div>
+
+  <script src="index.js"></script>
+  <script src="player.js"></script>
 </body>
 </html>
