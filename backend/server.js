@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static("../frontend/"));
 
 
-const mongoUrl = 'mongodb://localhost:27017'; // Change this to your MongoDB connection string
+const mongoUrl = 'mongodb://localhost:27017'; // mongoDB connection string
 const dbName = 'vidrates';
 
 mongoose.connect(mongoUrl+"/"+dbName)
@@ -82,8 +82,6 @@ async function findVideo(vidurl) {
     }
     return null
 }
-
-findVideo('2k38o_uzi0U')
   
 
 async function updateRating(data){
