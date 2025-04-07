@@ -1,12 +1,33 @@
 const { MongoClient, ObjectId } = require('mongodb');
 const mongoose = require('mongoose');
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
+const passport = require('passport');
+const authRoutes = require('./auth/auth');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+require('./strategies/google');
 
 app = express();
 
 app.use(express.json());
 app.use(express.static("../frontend/"));
+
+app.use(
+  session({
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/api/auth', authRoutes);
 
 
 const mongoUrl = 'mongodb://localhost:27017'; // mongoDB connection string

@@ -7,6 +7,7 @@
   <title>VidRates</title>
 </head>
 <body>
+  <a href="/api/auth/google" class="login-btn">Login</a>
   <h1>VidRates</h1>
   <div id="search-container">
     <input type="text" id="searchbar" placeholder="Search for a video...">
@@ -22,8 +23,14 @@
         </iframe>
       </div>
       <div id="video-info">
+        <div>
         <p>Average Rating: <span id="avg-rating">0</span></p>
         <p>Reviews: <span id="reviews-count">0</span></p>
+        </div>
+      
+        <div id="post-login-input" style="display: none; ">
+          <textarea id="user-input" placeholder="Leave a comment..." rows="6"></textarea>
+        </div>
       </div>
     </div>
     

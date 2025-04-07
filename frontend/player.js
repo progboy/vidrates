@@ -6,6 +6,7 @@ let urllist = ['c2M-rlkkT5o','btdLnB9PXuY','-dUiRtJ8ot0','K1a2Bk8NrYQ','lCBnO60k
 
 // let ind = Math.floor(Math.random()*urllist.length);
 let submit = document.getElementById("submit");
+let comment = document.getElementById("post-login-input")
 let vidData;
 
 function setVidData(vidrating,reviews,vidurl){
@@ -31,7 +32,35 @@ fetch('/api/geturl')
 
 submit.onclick = () => {
     //console.log(rating);
+
+
+    //check if user has logged in and attempted to post comment on youtube or not
     vidData.url = document.getElementById('vidplayer').src.slice(30);
+    if(comment.display!=='none' && comment.firstElementChild.value.trim() !== ''){
+        fetch("/api/post-comment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                comment: commentText,
+                videoId: videoId
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Comment posted successfully!");
+            } else {
+                alert("Failed to post comment.");
+            }
+        })
+        .catch(error => {
+            console.error("Error posting comment:", error);
+            alert("An error occurred while posting the comment.");
+        });
+    }
+
     vidData.rating = parseFloat(document.getElementById('avg-rating').innerText);
     vidData.ratings = parseInt(document.getElementById('reviews-count').innerText);
 

@@ -5,6 +5,7 @@ let star4 = document.getElementById("star4");
 let star5 = document.getElementById("star5");
 
 let rating = 0;
+let loginStatus;
 
 function setStar(star){
     star.src = "./images/star_shaded.png";
@@ -57,3 +58,34 @@ star5.onclick = function(){
     setStar(star4);
     setStar(star5);
 };
+
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    loginStatus = params.get('login');
+  
+    if (loginStatus === 'success') {
+      alert('Login successful!');
+      const inputSection = document.getElementById('post-login-input');
+    const textarea = document.getElementById('user-input');
+    
+    inputSection.style.display = 'block';
+
+    textarea.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); // prevent newline
+        const userText = textarea.value.trim();
+        if (userText) {
+          console.log("User submitted:", userText); // Or send to server
+          textarea.value = '';
+          alert("Submitted: " + userText);
+        }
+      }
+    });
+    } else if (loginStatus === 'failed') {
+      alert('Login failed. Please try again.');
+      inputSection.style.display = 'none';
+    }else{
+        //hide the text for writing comment
+        inputSection.style.display = 'none';
+    }
+});
