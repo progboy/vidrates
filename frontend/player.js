@@ -33,32 +33,40 @@ fetch('/api/geturl')
 submit.onclick = () => {
     //console.log(rating);
 
-
     //check if user has logged in and attempted to post comment on youtube or not
     vidData.url = document.getElementById('vidplayer').src.slice(30);
     if(comment.display!=='none' && comment.firstElementChild.value.trim() !== ''){
-        fetch("/api/post-comment", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                comment: commentText,
-                videoId: videoId
-            })
-        })
+        fetch('./token.json') // Relative to the site root
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                alert("Comment posted successfully!");
-            } else {
-                alert("Failed to post comment.");
-            }
-        })
-        .catch(error => {
-            console.error("Error posting comment:", error);
-            alert("An error occurred while posting the comment.");
-        });
+            //console.log("Token:", data);
+            fetch("https://www.googleapis.com/youtube/v3/commentThreads?part=snippet", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${data}`
+                },
+                body: JSON.stringify({
+                    snippet: {
+                      videoId: vidData.url,
+                      topLevelComment: {
+                        snippet: {
+                          textOriginal: comment.firstElementChild.value.trim()
+                        }
+                      }
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert("comment posted")
+            })
+            .catch(error => {
+                console.error("Error posting comment:", error);
+                alert("An error occurred while posting the comment.",error);
+            });
+        }).catch(err => console.error('Error loading JSON:', err));
+        
     }
 
     vidData.rating = parseFloat(document.getElementById('avg-rating').innerText);
@@ -129,6 +137,3 @@ searchButton.onclick = () => {
     })
     .catch(error => console.error("error fetching api key =>", error))
 }
-
-//to do - insert new searched video if user rates it
-//

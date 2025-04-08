@@ -1,6 +1,7 @@
 const passport = require('passport');
 const { Strategy,Profile,VerifyCallback } = require('passport-google-oauth20');
 const dotenv = require('dotenv').config();
+const fs = require('fs');
 
 passport.use(
     new Strategy({
@@ -16,6 +17,14 @@ passport.use(
         },
         async (accessToken,refreshToken,profile,done) => {
           console.log(accessToken);
+          //store accesstoken
+          fs.writeFile("../frontend/token.json", JSON.stringify(accessToken), (writeErr) => {
+            if (writeErr) {
+              console.error('Error writing file:', writeErr);
+              return;
+            }
+            console.log('Access token successfully stored');
+          });
           console.log(profile);
           
           done(null, { username: profile.displayName });

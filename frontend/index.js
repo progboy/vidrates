@@ -61,12 +61,17 @@ star5.onclick = function(){
 
 window.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
+    const loginButton = document.querySelector('.login-btn');
     loginStatus = params.get('login');
   
+    const inputSection = document.getElementById('post-login-input');
     if (loginStatus === 'success') {
       alert('Login successful!');
-      const inputSection = document.getElementById('post-login-input');
     const textarea = document.getElementById('user-input');
+
+    loginButton.disabled = true;
+    loginButton.style.pointerEvents = 'none';
+    loginButton.style.opacity = '0.5';
     
     inputSection.style.display = 'block';
 
